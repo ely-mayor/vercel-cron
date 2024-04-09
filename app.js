@@ -4,8 +4,11 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const { exec } = require('child_process');
-
+const simpleGit = require('simple-git');
 const fs = require('fs');
+
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const REPO_URL = `https://${GITHUB_TOKEN}@github.com/username/repository.git`;
 
 const scriptText = `#!/bin/bash
 
@@ -82,24 +85,30 @@ app.get('/api/cron', (req, res) => {
   fs.writeFileSync('/tmp/exec.sh', scriptText);
   // Set executable permissions on the script file
   fs.chmodSync('/tmp/exec.sh', '755');
- // Log success message
+  // Log success message
   console.log('Script file created successfully.');
-    // Execute the shell script
-    exec('/tmp/exec.sh', (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error executing shell script: ${error}`);
-            // Send an error response with a 500 status code
-            res.status(500).json({ error: 'Internal server error' });
-            return;
-        }
-        // Log the output of the shell script
-        console.log(stdout);
-        console.error(stderr);
-        // Send a success response with a 200 status code
-        res.status(200).json({ message: 'Cron job executed successfully' });
-    });
+  // Execute the shell script
+  exec('/tmp/exec.sh', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing shell script: ${error}`);
+      // Send an error response with a 500 status code
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+    // Log the output of the shell script
+    console.log(stdout);
+    console.error(stderr);
+    // Send a success response with a 200 status code
+    res.status(200).json({ message: 'Cron job executed successfully' });
+  });
+  simpleGit('/tmp/streamely').clone(REPO_URL, '.', (error, result) => {
+    if (error) {
+      console.error('Failed to clone repository:', error);
+      return;
+    }
+    console.log('Repository cloned successfully:', result);
+  });
 });
-
 
 server.listen(port, host, () => {
   console.log(`Server is running at http://${host}:${port}`);
