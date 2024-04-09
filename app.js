@@ -15,7 +15,7 @@ characters='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 API_URL="https://r2-api.mayor.workers.dev/working.txt"
 
 # Generate random text
-random_text=\$(generate_random_text)
+random_text=$(generate_random_text)
 
 # Function to generate random text
 generate_random_text() {
