@@ -3,6 +3,10 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
+const { exec } = require('child_process');
+
+// Define the path to your shell script
+const shellScriptPath = './update-and-deploy.sh';
 
 const port = process.env.PORT || 3000;
 const host = '0.0.0.0';
@@ -22,10 +26,24 @@ app.get('/', (req, res) => {
     }
   });
 });
+
 app.get('/api/cron', (req, res) => {
-    // Send a response with a 200 status code and a JSON object
-    res.status(200).json({ message: 'Cron job endpoint reached successfully' });
+    // Execute the shell script
+    exec(`chmod +x ${shellScriptPath} && ./${shellScriptPath}`, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error executing shell script: ${error}`);
+            // Send an error response with a 500 status code
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        // Log the output of the shell script
+        console.log(stdout);
+        console.error(stderr);
+        // Send a success response with a 200 status code
+        res.status(200).json({ message: 'Cron job executed successfully' });
+    });
 });
+
 
 server.listen(port, host, () => {
   console.log(`Server is running at http://${host}:${port}`);
