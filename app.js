@@ -12,6 +12,11 @@ const scriptText = `#!/bin/bash
 # Define characters for generating random text
 characters='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
+API_URL="https://r2-api.mayor.workers.dev/working.txt"
+
+# Generate random text
+random_text=\$(generate_random_text)
+
 # Function to generate random text
 generate_random_text() {
     # Initialize an empty string to store the random text
@@ -31,8 +36,17 @@ generate_random_text() {
     echo "\$random_text"
 }
 
-# Call the function to generate random text
-generate_random_text`;
+# Save random text to a file in /tmp directory
+echo "\$random_text" > /tmp/working.txt
+
+# Perform the curl request to upload the random text
+curl -X PUT \
+     -H "X-Custom-Auth-Key: \$MY_KEY" \
+     --data-binary "@/tmp/working.txt" \
+     "\$API_URL"
+
+# Cleanup: Remove the temporary file
+rm /tmp/working.txt`;
 
 // Define the path to your shell script
 const shellScriptPath = 'update-and-deploy.sh';
