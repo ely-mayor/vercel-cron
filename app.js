@@ -46,7 +46,16 @@ curl -X PUT \
      "\$API_URL"
 
 # Cleanup: Remove the temporary file
-rm /tmp/working.txt`;
+rm /tmp/working.txt
+
+# Set the repository URL with authentication
+REPO_URL="https://\$GITHUB_TOKEN@github.com/ely-mayor/streamely.git"
+
+# Clone the repository with authentication into /tmp directory
+git clone --recurse-submodules -b main "\$REPO_URL" /tmp/streamely \
+    && cd /tmp/streamely \
+    && echo "Cloned repository successfully" \
+    && ls`;
 
 // Define the path to your shell script
 const shellScriptPath = 'update-and-deploy.sh';
