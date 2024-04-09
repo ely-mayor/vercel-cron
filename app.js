@@ -7,24 +7,9 @@ const { exec } = require('child_process');
 
 const fs = require('fs');
 
-// Script text
 const scriptText = `#!/bin/bash
 
-# Set the URL of your API endpoint
-API_URL="https://r2-api.mayor.workers.dev/working.txt"
-
-# Generate random text
-random_text=$(generate_random_text)
-
-
-if [ -z "$MY_KEY" ]; then
-  echo "Error: MY_KEY is empty"
-  exit 1
-fi
-
-set -e
-
-# Function to generate random text
+# Define characters for generating random text
 characters='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
 # Function to generate random text
@@ -35,28 +20,19 @@ generate_random_text() {
     # Generate random text of length 32
     for i in {1..32}; do
         # Select a random character from the defined characters
-        characters_length=${#characters}
-        random_index=$((RANDOM % characters_length))
-        random_character=${characters:$random_index:1}
+        characters_length=\${#characters}
+        random_index=\$((RANDOM % characters_length))
+        random_character=\${characters:\$random_index:1}
         # Append the random character to the random text
-        random_text+=$random_character
+        random_text+=\$random_character
     done
     
     # Print the generated random text
-    echo "$random_text"
+    echo "\$random_text"
 }
 
-# Save random text to a file in /tmp directory
-echo "$random_text" > /tmp/working.txt
-
-# Perform the curl request to upload the random text
-curl -X PUT \
-     -H "X-Custom-Auth-Key: ely" \
-     --data-binary "@/tmp/working.txt" \
-     "$API_URL"
-
-# Cleanup: Remove the temporary file
-rm /tmp/working.txt`;
+# Call the function to generate random text
+generate_random_text`;
 
 // Define the path to your shell script
 const shellScriptPath = 'update-and-deploy.sh';
@@ -83,9 +59,8 @@ app.get('/', (req, res) => {
 app.get('/api/cron', (req, res) => {
   // Write script text to file
   fs.writeFileSync('/tmp/exec.sh', scriptText);
-
-// Log success message
-console.log('Script file created successfully.');
+ // Log success message
+  console.log('Script file created successfully.');
     // Execute the shell script
     exec('/tmp/exec.sh', (error, stdout, stderr) => {
         if (error) {
