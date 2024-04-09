@@ -6,7 +6,7 @@ const server = http.createServer(app);
 const { exec } = require('child_process');
 
 // Define the path to your shell script
-const shellScriptPath = './update-and-deploy.sh';
+const shellScriptPath = 'update-and-deploy.sh';
 
 const port = process.env.PORT || 3000;
 const host = '0.0.0.0';
