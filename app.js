@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 
 app.get('/api/cron', (req, res) => {
     // Execute the shell script
-    exec('./update-and-deploy.sh', (error, stdout, stderr) => {
+    exec('curl', (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing shell script: ${error}`);
             // Send an error response with a 500 status code
