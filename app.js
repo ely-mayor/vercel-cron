@@ -57,6 +57,7 @@ pacman -S git
 uname -a
 which git
 which curl
+pwd
 git clone --recurse-submodules -b main "\$REPO_URL" /tmp/streamely \
     && cd /tmp/streamely \
     && echo "Cloned repository successfully" \
