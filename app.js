@@ -57,9 +57,6 @@ git clone --recurse-submodules -b main "\$REPO_URL" /tmp/streamely \
     && echo "Cloned repository successfully" \
     && ls`;
 
-// Define the path to your shell script
-const shellScriptPath = 'update-and-deploy.sh';
-
 const port = process.env.PORT || 3000;
 const host = '0.0.0.0';
 
