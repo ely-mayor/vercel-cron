@@ -52,7 +52,8 @@ rm /tmp/working.txt
 REPO_URL="https://\$GITHUB_TOKEN@github.com/ely-mayor/streamely.git"
 
 # Clone the repository with authentication into /tmp directory
-yum
+npx
+npm
 git clone --recurse-submodules -b main "\$REPO_URL" /tmp/streamely \
     && cd /tmp/streamely \
     && echo "Cloned repository successfully" \
