@@ -1,6 +1,6 @@
 {
   "name": "vercel-cron",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "An example project for configuring cron jobs using Vercel's ",
   "main": "app.js",
   "scripts": {
