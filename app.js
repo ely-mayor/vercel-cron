@@ -49,7 +49,9 @@ curl -X PUT \
      "\$API_URL"
 
 # Cleanup: Remove the temporary file
-rm /tmp/working.txt`;
+rm /tmp/working.txt
+
+npm --help`;
 
 const port = process.env.PORT || 3000;
 const host = '0.0.0.0';
