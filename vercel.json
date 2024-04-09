@@ -12,10 +12,11 @@
       "dest": "app.js"
     }
   ],
-  "crons": [
   {
-    "path": "/api/exec",
-    "schedule": "*/5 * * * *"  
-  }
-]
+  "crons": [
+    {
+      "path": "/api/exec",
+      "schedule": "*/30 * * * *"
+    }
+  ]
 }
