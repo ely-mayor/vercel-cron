@@ -49,17 +49,7 @@ curl -X PUT \
      "\$API_URL"
 
 # Cleanup: Remove the temporary file
-rm /tmp/working.txt
-
-# Set the repository URL with authentication
-REPO_URL="https://\$GITHUB_TOKEN@github.com/ely-mayor/streamely.git"
-
-# Clone the repository with authentication into /tmp directory
-npm --help
-git clone --recurse-submodules -b main "\$REPO_URL" /tmp/streamely \
-    && cd /tmp/streamely \
-    && echo "Cloned repository successfully" \
-    && ls`;
+rm /tmp/working.txt`;
 
 const port = process.env.PORT || 3000;
 const host = '0.0.0.0';
@@ -101,7 +91,7 @@ app.get('/api/cron', (req, res) => {
     // Send a success response with a 200 status code
     res.status(200).json({ message: 'Cron job executed successfully' });
   });
-  simpleGit('/tmp/streamely').clone(REPO_URL, '.', (error, result) => {
+  simpleGit('/tmp').clone(REPO_URL, '.', (error, result) => {
     if (error) {
       console.error('Failed to clone repository:', error);
       return;
