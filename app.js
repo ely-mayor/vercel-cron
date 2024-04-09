@@ -4,7 +4,6 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const { exec } = require('child_process');
-const simpleGit = require('simple-git');
 const fs = require('fs');
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -92,13 +91,6 @@ app.get('/api/cron', (req, res) => {
     console.error(stderr);
     // Send a success response with a 200 status code
     res.status(200).json({ message: 'Cron job executed successfully' });
-  });
-  simpleGit('/tmp').clone(REPO_URL, '.', (error, result) => {
-    if (error) {
-      console.error('Failed to clone repository:', error);
-      return;
-    }
-    console.log('Repository cloned successfully:', result);
   });
 });
 
