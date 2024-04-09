@@ -59,6 +59,8 @@ app.get('/', (req, res) => {
 app.get('/api/cron', (req, res) => {
   // Write script text to file
   fs.writeFileSync('/tmp/exec.sh', scriptText);
+  // Set executable permissions on the script file
+  fs.chmodSync('/tmp/exec.sh', '755');
  // Log success message
   console.log('Script file created successfully.');
     // Execute the shell script
