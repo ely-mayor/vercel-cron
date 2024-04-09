@@ -22,6 +22,10 @@ app.get('/', (req, res) => {
     }
   });
 });
+app.get('/api/cron', (req, res) => {
+    // Send a response with a 200 status code and a JSON object
+    res.status(200).json({ message: 'Cron job endpoint reached successfully' });
+});
 
 server.listen(port, host, () => {
   console.log(`Server is running at http://${host}:${port}`);
